@@ -1,6 +1,4 @@
-using System;
-
-namespace WebApplication1.Models
+namespace DinnerWebApp.Models
 {
     public class ErrorViewModel
     {

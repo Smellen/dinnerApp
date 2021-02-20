@@ -1,0 +1,59 @@
+﻿@model List<DinnerWebApp.Models.Dinner>
+
+    @{
+        ViewData["Title"] = "Dinner";
+        var counter = 1;
+    }
+
+    @if (Model != null)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model)
+                    </th>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Score
+                    </th>
+                    <th>
+                        Owner
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @counter
+
+                            @{counter++;}
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TotalScore)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Owner.Name)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>There is no dinner data to display.</p>
+    }
