@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30709.132
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DinnerWebApp", "WebApplication1\DinnerWebApp.csproj", "{89AEA819-450B-4BBE-B255-ADD54881CF93}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DinnerWebApp", "src\DinnerWebApp\DinnerWebApp.csproj", "{89AEA819-450B-4BBE-B255-ADD54881CF93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
