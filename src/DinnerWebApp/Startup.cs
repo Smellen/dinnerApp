@@ -1,18 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using DinnerWebApp.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MongoDB.Driver;
 
-namespace WebApplication1
+namespace DinnerWebApp
 {
     public class Startup
     {
+        private const string MongoDbConnectionString = "MongoDbConnectionString";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -23,6 +22,12 @@ namespace WebApplication1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var mongoClient = new MongoClient(Configuration[MongoDbConnectionString]);
+            services.AddTransient<IDataRepository>(
+                provider => new DataRepository(mongoClient, "dev"));
+
+            services.AddAutoMapper(typeof(AutoMapperProfile));
+
             services.AddControllersWithViews();
         }
 

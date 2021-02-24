@@ -1,0 +1,12 @@
+mongo-container:
+  image: mongo:3.4.2
+  environment:
+      - MONGO_INITDB_DATABASE=admin
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=dinner_123
+  ports:
+    - "27017:27017"
+  volumes:
+    - "$PWD/mongo-entrypoint/:/docker-entrypoint-initdb.d/"
+  command: mongod
+  container_name: dinner-mongo-db

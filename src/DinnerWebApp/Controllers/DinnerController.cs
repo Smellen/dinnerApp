@@ -1,107 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
+using DinnerWebApp.Data;
+using DinnerWebApp.Data.Models;
 using DinnerWebApp.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DinnerWebApp.Controllers
 {
     public class DinnerController : Controller
     {
-        public List<Dinner> Dinners { get; set; }
+        private readonly IMapper _mapper;
+        private readonly IDataRepository _repository;
 
-        public DinnerController()
+        public DinnerController(IMapper mapper, IDataRepository repository)
         {
-            Dinners = new List<Dinner>()
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        }
+
+        public async Task<ActionResult> Dinner()
+        {
+            var dinners = new List<Dinner>();
+            var dinnersFromDatabase = await _repository.GetAllDinners();
+            if (dinnersFromDatabase != null && dinnersFromDatabase.Any())
             {
-                new Dinner()
+                dinnersFromDatabase.ForEach(e => dinners.Add(_mapper.Map<Dinner>(e)));
+            }
+
+            return View(dinners);
+        }
+
+        public ActionResult AddNewDinner()
+        {
+            return View("CreateDinner", new Dinner());
+        }
+
+        public async Task<ActionResult> Create(Dinner dinner)
+        {
+            var mappedDinners = new List<Dinner>();
+            if (dinner != null)
+            {
+                var dinners = await _repository.GetAllDinners();
+                var matchingDate = dinners.FirstOrDefault(e => e.Date == dinner.Date);
+                if (matchingDate == null)
                 {
-                    BonusPoints = 9.0,
-                    BaseScore = 9.0,
-                    Date = DateTime.Today,
-                    Description = "Test dinner",
-                    Owner = new Owner()
-                    {
-                        Name = "ellen",
-                        Total = 9.0
-                    }
+                   await _repository.Add(_mapper.Map<DinnerDao>(dinner));
                 }
-            };
-        }
-
-        // GET: DinnerController
-        public ActionResult Dinner()
-        {
-            return View(Dinners);
-        }
-
-        // GET: DinnerController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: DinnerController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: DinnerController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
+                
+                dinners.ForEach(e => mappedDinners.Add(_mapper.Map<Dinner>(e)));
             }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: DinnerController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: DinnerController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: DinnerController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: DinnerController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return View("Dinner", mappedDinners);
         }
     }
 }

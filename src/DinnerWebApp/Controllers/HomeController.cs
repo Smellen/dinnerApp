@@ -3,7 +3,7 @@ using DinnerWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace WebApplication1.Controllers
+namespace DinnerWebApp.Controllers
 {
     public class HomeController : Controller
     {
