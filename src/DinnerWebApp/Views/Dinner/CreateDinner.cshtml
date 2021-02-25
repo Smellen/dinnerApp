@@ -1,51 +1,48 @@
-﻿@model DinnerWebApp.Models.Dinner
+﻿@model DinnerWebApp.Models.AddDinnerModel
 
 @{
     ViewData["Title"] = "View";
 }
 
-<h1>Add a Dinner</h1>
-
-<h4>Dinner</h4>
+<h4>Add a dinner</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="View">
+
+        @using (Html.BeginForm("Create", "Dinner", FormMethod.Post))
+        {
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
+                <label asp-for="Dinner.Description" class="control-label"></label>
+                @Html.TextBoxFor(model => model.Dinner.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Dinner.Description)
             </div>
             <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                @Html.EditorFor(model => model.Date)
+                <label asp-for="Dinner.Date" class="control-label"></label>
+                @Html.EditorFor(model => model.Dinner.Date, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Dinner.Date)
             </div>
             <div class="form-group">
-                <label asp-for="BaseScore" class="control-label"></label>
-                @Html.TextBoxFor(model => model.BaseScore, new { @class = "form-control" })
+                <label asp-for="Dinner.BaseScore" class="control-label"></label>
+                @Html.TextBoxFor(model => model.Dinner.BaseScore, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Dinner.BaseScore)
             </div>
             <div class="form-group">
-                <label asp-for="BonusPoints" class="control-label"></label>
-                @Html.TextBoxFor(model => model.BonusPoints, new { @class = "form-control" })
+                <label asp-for="Dinner.BonusPoints" class="control-label"></label>
+                @Html.TextBoxFor(model => model.Dinner.BonusPoints, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Dinner.BonusPoints)
             </div>
             <div class="form-group">
-                @Html.ActionLink("Create", "Create", "Dinner", new
-               {
-                   dinner = new Dinner()
-                   {
-                       Date = Model.Date,
-                       Description = Model.Description,
-                       BaseScore = Model.BaseScore,
-                       BonusPoints = Model.BonusPoints
-                   }
-               },
-                new { @class = "btn btn-primary" })
+                <label asp-for="Dinner.Owner" class="control-label"></label>
+                @Html.DropDownListFor(model => model.Dinner.Owner, ViewBag.OwnerList as SelectList, new { @class = "form-control" })
             </div>
-        </form>
+
+            <input type="submit" value="Create" class="btn btn-primary" />
+        }
     </div>
 </div>
 
 <div>
-    <a asp-action="Dinner">Back to List</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 

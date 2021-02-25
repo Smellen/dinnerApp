@@ -14,6 +14,7 @@ namespace DinnerWebApp
         private void ApplyMappings()
         {
             CreateMap<Dinner, DinnerDao>().ReverseMap();
+            CreateMap<Owner, OwnerDao>().ReverseMap();
         }
     }
 }
