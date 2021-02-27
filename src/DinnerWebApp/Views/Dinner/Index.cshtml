@@ -1,4 +1,5 @@
 ﻿@model DinnerWebApp.Models.DinnerModel
+@using System.Linq;
 
 @{
     ViewData["Title"] = "Index";
@@ -29,6 +30,9 @@
                 <th>
                     Owner
                 </th>
+                <th>
+                    Actions
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -50,7 +54,15 @@
                         @Html.DisplayFor(modelItem => item.TotalScore)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Owner.Name)
+                        @{
+                            var o = ViewBag.OwnerList as Dictionary<string, Owner>;
+                            var ownerName = o.TryGetValue(item.Owner, out Owner owner);
+                        }
+                        @owner.Name
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", "Dinner", new { date = item.Date }) |
+                        @Html.ActionLink("Delete", "Delete", "Dinner", new { date = item.Date })
                     </td>
                 </tr>
             }

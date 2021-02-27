@@ -13,10 +13,11 @@ namespace DinnerWebApp.Data.Models
         public string Description { get; set; }
 
         [BsonElement("Date")]
+        [BsonDateTimeOptions()]
         public DateTime Date { get; set; }
 
         [BsonElement("Owner")]
-        public OwnerDao Owner { get; set; }
+        public string Owner { get; set; }
 
         [BsonElement("BaseScore")]
         public double BaseScore { get; set; }

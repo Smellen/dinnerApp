@@ -8,9 +8,12 @@ namespace DinnerWebApp.Models
         [Required]
         [StringLength(100)]
         public string Description { get; set; }
+
         [DataType(DataType.Date)]
-        public DateTime Date { get; set; }
-        public Owner Owner { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
+        public DateTime Date { get; set; } 
+        [Required]
+        public string Owner { get; set; }
         [Required]
         public double BaseScore { get; set; }
         [Required]

@@ -38,22 +38,32 @@ namespace DinnerWebApp.Controllers
                 Skip = skip
             };
 
+            var owners = await GetOwners(string.Empty);
+            
+            var dict = new Dictionary<string, Owner>();
+
+            foreach(var owner in owners)
+            {
+                dict.Add(owner.Id, owner);
+            }
+
+            ViewBag.OwnerList = dict;
+
             return View(dinnerModel);
         }
 
         public async Task<ActionResult> AddNewDinner()
         {
-            var owners = await _repository.GetOwners();
             var model = new AddDinnerModel()
             {
                 Owners = new List<Owner>(),
                 Dinner = new Dinner()
             };
 
-            owners.ForEach(e => model.Owners.Add(_mapper.Map<Owner>(e)));
-            ViewBag.OwnerList = ToSelectList(model.Owners, "OwnerId", "OwnerName");
+            var owners = await GetOwners(string.Empty);
+            ViewBag.OwnerList = ToSelectList(owners, string.Empty, string.Empty);
 
-            return View("CreateDinner", model);
+            return View("AddDinner", model);
         }
 
         [HttpPost]
@@ -68,10 +78,26 @@ namespace DinnerWebApp.Controllers
                 }
                 else
                 {
-                    // Go back to the edit page
-                    return View("CreateDinner", new Dinner());
+                    // Failed to add dinner.
+                    return View("AddDinner", new Dinner());
                 }
             }
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> Details(DateTime date)
+        {
+            var dinner = (await _repository.Search(date)).FirstOrDefault();
+            var owner = await _repository.GetOwners(dinner.Owner);
+            ViewBag.OwnerName = owner.FirstOrDefault().Name;
+
+            return View("Details", _mapper.Map<Dinner>(dinner));
+        }
+
+        public async Task<ActionResult> Delete(DateTime date)
+        {
+            await _repository.DeleteDinner(date);
 
             return RedirectToAction("Index");
         }
@@ -91,6 +117,15 @@ namespace DinnerWebApp.Controllers
             }
 
             return new SelectList(list, "Value", "Text");
+        }
+
+        private async Task<List<Owner>> GetOwners(string id)
+        {
+            var ownerResult = new List<Owner>();
+            var ownersFromDatabase = await _repository.GetOwners(id);
+            ownersFromDatabase.ForEach(e => ownerResult.Add(_mapper.Map<Owner>(e)));
+
+            return ownerResult;
         }
     }
 }

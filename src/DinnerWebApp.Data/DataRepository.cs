@@ -42,9 +42,17 @@ namespace DinnerWebApp.Data
             return dinners;
         }
 
-        public async Task<List<OwnerDao>> GetOwners()
+        public async Task<List<OwnerDao>> GetOwners(string id)
         {
-            List<OwnerDao> owners = await _owners.Find(_ => true).ToListAsync();
+            List<OwnerDao> owners = new List<OwnerDao>();
+            if(string.IsNullOrWhiteSpace(id))
+            {
+                owners = await _owners.Find(_ => true).ToListAsync();
+            }
+            else
+            {
+                owners = await _owners.Find(e => e.Id == id).ToListAsync();
+            }
 
             if (owners == null || !owners.Any())
             {
@@ -72,6 +80,13 @@ namespace DinnerWebApp.Data
             await _owners.InsertOneAsync(owner);
 
             return owner;
+        }
+
+        public async Task<bool> DeleteDinner(DateTime date)
+        {
+            var deleteResult = await _dinners.DeleteOneAsync(e => e.Date == date);
+
+            return deleteResult.DeletedCount >= 1;
         }
     }
 }

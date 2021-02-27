@@ -11,6 +11,7 @@ namespace DinnerWebApp.Data
         Task<DinnerDao> Add(DinnerDao dinner);
         Task<List<DinnerDao>> Search(DateTime date);
         Task<List<DinnerDao>> GetDinners(int skip, int take);
-        Task<List<OwnerDao>> GetOwners();
+        Task<List<OwnerDao>> GetOwners(string id);
+        Task<bool> DeleteDinner(DateTime date);
     }
 }
