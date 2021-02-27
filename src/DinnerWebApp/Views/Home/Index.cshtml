@@ -1,9 +1,22 @@
-﻿@{
+﻿@{ 
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Rate dinner every day and keep track of scores.</p>
-    <p>Code repo: https://github.com/Smellen/dinnerApp</p>
+    <p>Rules</p>
+    <ul>
+        <li>No cheating!</li>
+        <li>Only one dinner a day</li>
+        <li>No editing dinners!</li>
+        <li>Takeaways count</li>
+    </ul>
+    <br />
+    <p>Current db status: @ViewBag.DbHealth</p>
+    <br />
+    <p>
+        Code repo located:
+        <a href="https://github.com/Smellen/dinnerApp">https://github.com/Smellen/dinnerApp</a>
+    </p>
 </div>

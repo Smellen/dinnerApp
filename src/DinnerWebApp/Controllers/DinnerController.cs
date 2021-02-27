@@ -22,7 +22,7 @@ namespace DinnerWebApp.Controllers
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
-        public async Task<ActionResult> Index(int skip = 0, int take = 5)
+        public async Task<ActionResult> Index(int skip = 0, int take = 50)
         {
             var dinners = new List<Dinner>();
             var dinnersFromDatabase = await _repository.GetDinners(skip, take);

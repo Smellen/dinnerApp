@@ -1,0 +1,54 @@
+﻿@model DinnerWebApp.Models.StatisticsModel
+
+@{
+    ViewData["Title"] = "Statistics";
+}
+
+<h3>Below are the current statistics:</h3>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalAmountOfDinnersTracked)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalAmountOfDinnersTracked)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AverageDinnerScore)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AverageDinnerScore)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BestRatedDinner)
+        </dt>
+    </dl>
+    <dl class="row" style="margin-left: 50px">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BestRatedDinner.Date)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BestRatedDinner.Date)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BestRatedDinner.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BestRatedDinner.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BestRatedDinner.Owner)
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.OwnerName
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BestRatedDinner.TotalScore)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BestRatedDinner.TotalScore)
+        </dd>
+    </dl>
+</div>

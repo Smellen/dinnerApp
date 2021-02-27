@@ -13,5 +13,10 @@ namespace DinnerWebApp.Data
         Task<List<DinnerDao>> GetDinners(int skip, int take);
         Task<List<OwnerDao>> GetOwners(string id);
         Task<bool> DeleteDinner(DateTime date);
+        Task<DinnerDao> BestRated();
+        Task<double> AverageDinnerScore();
+        Task<double> AveragePerOwner(string ownerId);
+        Task<int> DinnerCount();
+        Task<bool> HealthCheck();
     }
 }
